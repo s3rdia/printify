@@ -1,0 +1,18 @@
+Package: printify
+Title: Custom Formatted Console Messages with Timing Support
+Version: 1.0.0
+Authors@R: 
+    person("Tim", "Siebenmorgen", email = "qol_package@proton.me", role = c("aut", "cre", "cph"))
+Description: A lightweight message system relying purely on base R. Comes with built-in and pre styled message types and provides an easy way to create custom messages. Supports individually styled and colored text as well as timing information. Designed to make console output more informative and visually organized.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+URL: https://github.com/s3rdia/printify, https://deepwiki.com/s3rdia/printify, https://s3rdia.github.io/qol_blog/
+Depends:
+	R (>= 4.1.0)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Suggests: 
+    tinytest (>= 1.4.3)
+Config/tinytest/edition: 1
+Config/Needs/website: rmarkdown

@@ -1,0 +1,27 @@
+url: https://s3rdia.github.io/printify/
+destination: docs
+
+template:
+  bootstrap: 5
+  bootswatch: darkly
+  theme: a11y-dark
+  bslib:
+    primary: "#048b3c"
+    code-color: "#05bc8c"
+
+reference:
+- title: Messages
+  contents:
+  - print_message
+  - print_headline
+  - print_start_message
+  - print_closing
+  - print_step
+  - set_up_custom_message
+  - get_message_stack
+  - print_stack_as_messages
+  - convert_square_brackets
+- title: Conversion
+  contents:
+  - hex_to_256
+  - hex_to_ansi
