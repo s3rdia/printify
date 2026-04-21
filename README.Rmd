@@ -16,9 +16,12 @@ knitr::opts_chunk$set(
 # printify <img src='man/figures/logo.png' width="150px" align="right" alt='Logo'/>
 
 <!-- badges: start -->
+[![CRAN Version](https://www.r-pkg.org/badges/version/printify?color=green)](https://cran.r-project.org/package=printify)
 [![DEVELOPMENT Version](https://img.shields.io/badge/GitHub-1.0.0-blue.svg)](https://github.com/s3rdia/printify)
+[![CRAN checks](https://badges.cranchecks.info/summary/printify.svg)](https://cran.r-project.org/web/checks/check_results_printify.html)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/s3rdia/printify)
 [![qol_blog](https://img.shields.io/badge/qol-Blog-036f30)](https://s3rdia.github.io/qol_blog/)
+[![status](https://tinyverse.netlify.app/badge/printify)](https://CRAN.R-project.org/package=printify)
 <!-- badges: end -->
 
 Custom Formatted Console Messages With Timing Support
