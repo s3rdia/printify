@@ -27,6 +27,7 @@ Messages: \code{\link[=print_message]{print_message()}}, \code{\link[=print_head
 Useful links:
 \itemize{
   \item \url{https://github.com/s3rdia/printify}
+  \item \url{https://s3rdia.github.io/printify/}
   \item \url{https://deepwiki.com/s3rdia/printify}
   \item \url{https://s3rdia.github.io/qol_blog/}
 }

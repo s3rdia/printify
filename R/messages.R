@@ -19,6 +19,7 @@
 #' @param always_print FALSE by default. If TRUE, prints headlines even in deeper
 #' nested situations.
 #' @param utf8 Whether to display complex characters or just plain text.
+#' @param no_color Whether to display color codes or suppress them.
 #'
 #' @details
 #' The message types in which you can enter custom texts, are capable of using
@@ -32,7 +33,7 @@
 #'
 #' @seealso
 #' Also have a look at the small helpers: [get_message_stack()], [set_no_print()],
-#' [print_stack_as_messages()], [convert_square_brackets()]
+#' [set_no_color()], [print_stack_as_messages()], [convert_square_brackets()]
 #'
 #' @return
 #' Return text without styling or total running time.
@@ -58,7 +59,8 @@ print_message <- function(type,
                           text,
                           ...,
                           always_print = FALSE,
-                          utf8         = .printify_messages[["format"]][["utf8"]]){
+                          utf8         = .printify_messages[["format"]][["utf8"]],
+                          no_color     = .printify_messages[["no_color"]]){
     suppressed <- FALSE
 
     # Identify which function called the message
@@ -124,7 +126,7 @@ print_message <- function(type,
             cat("\n")
         }
 
-        text <- print_to_console(type = type, text = text, ..., utf8 = utf8)
+        text <- print_to_console(type = type, text = text, ..., utf8 = utf8, no_color = no_color)
     }
 
     # Catch type for message stack on custom messages
@@ -159,6 +161,7 @@ print_to_console <- function(type,
                              text,
                              ...,
                              utf8     = .printify_messages[["format"]][["utf8"]],
+                             no_color = .printify_messages[["no_color"]],
                              new_line = TRUE){
     # If normal pre defined message
     if (!is.list(type)){
@@ -247,6 +250,12 @@ print_to_console <- function(type,
     prefix <- ifelse(is_new_line_necessary(), "\n", "")
 
     if (!is_no_print_active()){
+        # If no color should be printed, remove individual styling
+        if (no_color){
+            ansi_regex <- "(?>\\x1B\\[|\\033\\[)[0-9;:]*[a-zA-Z]"
+            text       <- gsub(ansi_regex, "", text, perl = TRUE)
+        }
+
         # Put a line break afterwards, otherwise the next message would be printed on the same line.
         if (new_line){
             caller <- as.character(sys.call(-1))[1]
@@ -307,7 +316,8 @@ print_headline <- function(text,
                            ...,
                            line_char    = "=",
                            max_width    = getOption("width"),
-                           always_print = FALSE){
+                           always_print = FALSE,
+                           no_color     = .printify_messages[["no_color"]]){
     suppressed <- FALSE
 
     # Identify which function called the message
@@ -357,6 +367,12 @@ print_headline <- function(text,
         fill_width <- max(0, max_width - nchar(text_measure))
 
         if (!is_no_print_active()){
+            # If no color should be printed, remove individual styling
+            if (no_color){
+                ansi_regex <- "(?>\\x1B\\[|\\033\\[)[0-9;:]*[a-zA-Z]"
+                text       <- gsub(ansi_regex, "", text, perl = TRUE)
+            }
+
             cat("\n", text, strrep(line_char, fill_width), "\n", sep = "")
             utils::flush.console()
         }
@@ -408,7 +424,8 @@ print_headline <- function(text,
 print_start_message <- function(current_time = Sys.time(),
                                 caller_color = "#63C2C9",
                                 always_print = FALSE,
-                                suppress     = FALSE){
+                                suppress     = FALSE,
+                                no_color     = .printify_messages[["no_color"]]){
     depth      <- sys.nframe()
     suppressed <- FALSE
     no_print   <- FALSE
@@ -477,7 +494,7 @@ print_start_message <- function(current_time = Sys.time(),
             if (!no_print && !suppress){
                 # Print actual headline
                 text      <- paste0("[b][", caller_color, " ", caller, "][/b] started at ", current_time)
-                text_orig <- print_headline(text = text, always_print = TRUE)
+                text_orig <- print_headline(text = text, no_color = no_color, always_print = TRUE)
                 cat("\n")
                 utils::flush.console()
             }
@@ -518,7 +535,8 @@ print_closing <- function(time_threshold = 2,
                           start_time     = .printify_messages[["start_time"]],
                           caller_color   = "#63C2C9",
                           always_print   = FALSE,
-                          suppress       = FALSE){
+                          suppress       = FALSE,
+                          no_color       = .printify_messages[["no_color"]]){
     depth      <- sys.nframe()
     suppressed <- FALSE
 
@@ -602,7 +620,7 @@ print_closing <- function(time_threshold = 2,
         # Print actual headline
         if (!is_no_print_active() && !suppress){
             text      <- paste0("[b][", caller_color, " ", caller, "][/b] execution time: [", hex_color, " ", formatted_time, "]")
-            text_orig <- print_headline(text = text, always_print = TRUE)
+            text_orig <- print_headline(text = text, no_color = no_color, always_print = TRUE)
             cat("\n")
             utils::flush.console()
         }
@@ -668,7 +686,8 @@ print_step <- function(type,
                        text,
                        ...,
                        always_print = FALSE,
-                       utf8 = .printify_messages[["format"]][["utf8"]]){
+                       utf8         = .printify_messages[["format"]][["utf8"]],
+                       no_color     = .printify_messages[["no_color"]]){
     suppressed <- FALSE
 
     # Identify which function called the message
@@ -741,7 +760,12 @@ print_step <- function(type,
 
         # If messages are not suppressed
         text <- paste(text)
-        text <- print_to_console(type = type, text = text, ..., utf8 = utf8, new_line = FALSE)
+        text <- print_to_console(type = type,
+                                 text = text,
+                                 ...,
+                                 utf8     = utf8,
+                                 no_color = no_color,
+                                 new_line = FALSE)
     }
 
     # Catch type for message stack on custom messages
@@ -885,6 +909,25 @@ set_no_print <- function(value = FALSE){
     .printify_messages[["no_print"]] <- value
 
     invisible(.printify_messages[["no_print"]])
+}
+
+
+#' @description
+#' [set_no_color()]: TRUE by default. Suppresses the color codes so that messages
+#' can be printed clean.
+#'
+#' @param value Can be TRUE or FALSE.
+#'
+#' @returns
+#' [set_no_color()]: Returns the global no_color option.
+#'
+#' @rdname message_helpers
+#'
+#' @export
+set_no_color <- function(value = TRUE){
+    .printify_messages[["no_color"]] <- value
+
+    invisible(.printify_messages[["no_color"]])
 }
 
 

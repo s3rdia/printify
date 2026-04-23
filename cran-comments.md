@@ -1,5 +1,9 @@
 # Resubmission printify 1.0.1
-Last CRAN release was on xx.04.2026.
+Last CRAN release was on 21.04.2026.
+
+### New functionality
+
+* `set_no_color()`: Suppresses the color codes so that messages can be printed clean.
 
 ### Additionally
 

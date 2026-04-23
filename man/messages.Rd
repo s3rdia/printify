@@ -15,7 +15,8 @@ print_message(
   text,
   ...,
   always_print = FALSE,
-  utf8 = .printify_messages[["format"]][["utf8"]]
+  utf8 = .printify_messages[["format"]][["utf8"]],
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_headline(
@@ -23,14 +24,16 @@ print_headline(
   ...,
   line_char = "=",
   max_width = getOption("width"),
-  always_print = FALSE
+  always_print = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_start_message(
   current_time = Sys.time(),
   caller_color = "#63C2C9",
   always_print = FALSE,
-  suppress = FALSE
+  suppress = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_closing(
@@ -38,7 +41,8 @@ print_closing(
   start_time = .printify_messages[["start_time"]],
   caller_color = "#63C2C9",
   always_print = FALSE,
-  suppress = FALSE
+  suppress = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_step(
@@ -46,7 +50,8 @@ print_step(
   text,
   ...,
   always_print = FALSE,
-  utf8 = .printify_messages[["format"]][["utf8"]]
+  utf8 = .printify_messages[["format"]][["utf8"]],
+  no_color = .printify_messages[["no_color"]]
 )
 
 set_up_custom_message(
@@ -74,6 +79,8 @@ these write [NAME YOU PUT IN] in the text.}
 nested situations.}
 
 \item{utf8}{Whether to display complex characters or just plain text.}
+
+\item{no_color}{Whether to display color codes or suppress them.}
 
 \item{line_char}{The character that that forms the line.}
 
@@ -197,5 +204,5 @@ hotdog_stack <- get_message_stack()
 }
 \seealso{
 Also have a look at the small helpers: \code{\link[=get_message_stack]{get_message_stack()}}, \code{\link[=set_no_print]{set_no_print()}},
-\code{\link[=print_stack_as_messages]{print_stack_as_messages()}}, \code{\link[=convert_square_brackets]{convert_square_brackets()}}
+\code{\link[=set_no_color]{set_no_color()}}, \code{\link[=print_stack_as_messages]{print_stack_as_messages()}}, \code{\link[=convert_square_brackets]{convert_square_brackets()}}
 }

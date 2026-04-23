@@ -1,3 +1,5 @@
+set_no_color()
+
 # Print normal messages utf8
 test_func <- function(){
     print_start_message()
@@ -169,3 +171,5 @@ expect_message(print_stack_as_messages("NEUTRAL"), "These are variables: var1, v
 
 # Get message stack as data frame
 expect_inherits(get_message_stack(as_data_frame = TRUE), "data.frame", info = "Get message stack as data frame")
+
+set_no_color(FALSE)
