@@ -37,4 +37,4 @@
 .printify_messages[["last_session"]]   <- NULL
 .printify_messages[["last_execution"]] <- NULL
 .printify_messages[["no_print"]]       <- FALSE
-.printify_messages[["no_color"]]       <- FALSE
+.printify_messages[["no_color"]]       <- nzchar(Sys.getenv("NO_COLOR"))
