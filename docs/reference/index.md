@@ -11,6 +11,7 @@
   : Print Styled Messages
 - [`get_message_stack()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
   [`set_no_print()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
+  [`set_no_color()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
   [`print_stack_as_messages()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
   [`convert_square_brackets()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
   : Message Helper Functions

@@ -14,7 +14,7 @@
 #' @section Functions:#'
 #' Messages: [print_message()], [print_headline()], [print_start_message()], [print_closing()],
 #' [print_step()], [set_up_custom_message()], [get_message_stack()], [set_no_print()],
-#' [print_stack_as_messages()], [convert_square_brackets()]
+#' [set_no_color()], [print_stack_as_messages()], [convert_square_brackets()]
 #'
 #' @keywords internal
 "_PACKAGE"

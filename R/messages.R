@@ -775,14 +775,14 @@ print_step <- function(type,
 
     # Add message to global stack
     .printify_messages[["stack"]][[entry_nr]] <- list(type       = toupper(type),
-                                                 text       = text,
-                                                 suppressed = suppressed,
-                                                 new_line   = FALSE,
-                                                 print_time = TRUE,
-                                                 depth      = depth,
-                                                 caller     = caller,
-                                                 call_stack = sys.calls(),
-                                                 time       = Sys.time())
+                                                      text       = text,
+                                                      suppressed = suppressed,
+                                                      new_line   = FALSE,
+                                                      print_time = TRUE,
+                                                      depth      = depth,
+                                                      caller     = caller,
+                                                      call_stack = sys.calls(),
+                                                      time       = Sys.time())
 
     invisible(text)
 }
@@ -1496,7 +1496,8 @@ convert_hourglass <- function(text,
 #'
 #' @noRd
 # Put time stamp at the end of the last message if present
-print_time_stamp <- function(utf8 = .printify_messages[["format"]][["utf8"]]){
+print_time_stamp <- function(utf8     = .printify_messages[["format"]][["utf8"]],
+                             no_color = .printify_messages[["no_color"]]){
     if (is_time_stamp_possible()){
         last_message <- get_last_active_message()
 
@@ -1513,6 +1514,15 @@ print_time_stamp <- function(utf8 = .printify_messages[["format"]][["utf8"]]){
 
             # Print message
             if (!is_no_print_active()){
+                # If no color should be printed, remove individual styling
+                if (no_color){
+                    ansi_regex <- "(?>\\x1B\\[|\\033\\[)[0-9;:]*[a-zA-Z]"
+                    .printify_messages[["last_message"]] <- gsub(ansi_regex,
+                                                                 "",
+                                                                 .printify_messages[["last_message"]],
+                                                                 perl = TRUE)
+                }
+
                 cat("\r", .printify_messages[["last_message"]], "\n", sep = "")
                 utils::flush.console()
             }

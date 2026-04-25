@@ -21,6 +21,7 @@ and visually organized.
 [`set_up_custom_message()`](https://s3rdia.github.io/printify/reference/messages.md),
 [`get_message_stack()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`set_no_print()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
+[`set_no_color()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`print_stack_as_messages()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`convert_square_brackets()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
 
@@ -29,6 +30,8 @@ and visually organized.
 Useful links:
 
 - <https://github.com/s3rdia/printify>
+
+- <https://s3rdia.github.io/printify/>
 
 - <https://deepwiki.com/s3rdia/printify>
 

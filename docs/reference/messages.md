@@ -12,7 +12,8 @@ print_message(
   text,
   ...,
   always_print = FALSE,
-  utf8 = .printify_messages[["format"]][["utf8"]]
+  utf8 = .printify_messages[["format"]][["utf8"]],
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_headline(
@@ -20,14 +21,16 @@ print_headline(
   ...,
   line_char = "=",
   max_width = getOption("width"),
-  always_print = FALSE
+  always_print = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_start_message(
   current_time = Sys.time(),
   caller_color = "#63C2C9",
   always_print = FALSE,
-  suppress = FALSE
+  suppress = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_closing(
@@ -35,7 +38,8 @@ print_closing(
   start_time = .printify_messages[["start_time"]],
   caller_color = "#63C2C9",
   always_print = FALSE,
-  suppress = FALSE
+  suppress = FALSE,
+  no_color = .printify_messages[["no_color"]]
 )
 
 print_step(
@@ -43,7 +47,8 @@ print_step(
   text,
   ...,
   always_print = FALSE,
-  utf8 = .printify_messages[["format"]][["utf8"]]
+  utf8 = .printify_messages[["format"]][["utf8"]],
+  no_color = .printify_messages[["no_color"]]
 )
 
 set_up_custom_message(
@@ -83,6 +88,10 @@ set_up_custom_message(
 - utf8:
 
   Whether to display complex characters or just plain text.
+
+- no_color:
+
+  Whether to display color codes or suppress them.
 
 - line_char:
 
@@ -177,6 +186,7 @@ using different styling operators. These are:
 Also have a look at the small helpers:
 [`get_message_stack()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`set_no_print()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
+[`set_no_color()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`print_stack_as_messages()`](https://s3rdia.github.io/printify/reference/message_helpers.md),
 [`convert_square_brackets()`](https://s3rdia.github.io/printify/reference/message_helpers.md)
 

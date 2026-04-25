@@ -20,7 +20,7 @@ Designed to make console output more informative and visually organized.
 #'
 Messages: \code{\link[=print_message]{print_message()}}, \code{\link[=print_headline]{print_headline()}}, \code{\link[=print_start_message]{print_start_message()}}, \code{\link[=print_closing]{print_closing()}},
 \code{\link[=print_step]{print_step()}}, \code{\link[=set_up_custom_message]{set_up_custom_message()}}, \code{\link[=get_message_stack]{get_message_stack()}}, \code{\link[=set_no_print]{set_no_print()}},
-\code{\link[=print_stack_as_messages]{print_stack_as_messages()}}, \code{\link[=convert_square_brackets]{convert_square_brackets()}}
+\code{\link[=set_no_color]{set_no_color()}}, \code{\link[=print_stack_as_messages]{print_stack_as_messages()}}, \code{\link[=convert_square_brackets]{convert_square_brackets()}}
 }
 
 \seealso{
