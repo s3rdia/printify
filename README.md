@@ -14,7 +14,7 @@ checks](https://badges.cranchecks.info/summary/printify.svg)](https://cran.r-pro
 [![Ask
 DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/s3rdia/printify)
 [![qol_blog](https://img.shields.io/badge/qol-Blog-036f30)](https://s3rdia.github.io/qol_blog/)
-[![status](https://tinyverse.netlify.app/badge/printify)](https://CRAN.R-project.org/package=printify)
+[![status](https://tinyverse.netlify.app/badge/printify?v=2)](https://CRAN.R-project.org/package=printify)
 <!-- badges: end -->
 
 Custom Formatted Console Messages With Timing Support
