@@ -75,7 +75,10 @@ print_message <- function(type,
     }
 
     if (!is.list(type) && !tolower(type) %in% c("note", "warning", "error", "neutral")){
-        type <- "neutral"
+        # Check if message type is a custom one and retrieve from global list
+        if (!toupper(type) %in% names(.printify_messages[["custom_types"]])){
+            type <- "neutral"
+        }
     }
 
     depth <- sys.nframe()
@@ -106,6 +109,7 @@ print_message <- function(type,
         if (length(.printify_messages[["stack"]]) > 1){
             .printify_messages[["stack"]]        <- list()
             .printify_messages[["last_message"]] <- NULL
+            .printify_messages[["last_type"]]    <- NULL
         }
 
         entry_nr <- 1
@@ -136,14 +140,14 @@ print_message <- function(type,
 
     # Add message to global stack
     .printify_messages[["stack"]][[entry_nr]] <- list(type       = toupper(type),
-                                                 text       = text,
-                                                 suppressed = suppressed,
-                                                 new_line   = TRUE,
-                                                 print_time = FALSE,
-                                                 depth      = depth,
-                                                 caller     = caller,
-                                                 call_stack = sys.calls(),
-                                                 time       = Sys.time())
+                                                      text       = text,
+                                                      suppressed = suppressed,
+                                                      new_line   = TRUE,
+                                                      print_time = FALSE,
+                                                      depth      = depth,
+                                                      caller     = caller,
+                                                      call_stack = sys.calls(),
+                                                      time       = Sys.time())
 
     invisible(text)
 }
@@ -163,8 +167,15 @@ print_to_console <- function(type,
                              utf8     = .printify_messages[["format"]][["utf8"]],
                              no_color = .printify_messages[["no_color"]],
                              new_line = TRUE){
+    # Check if message type is a custom one and retrieve from global list
+    if (!is.list(type) && toupper(type) %in% names(.printify_messages[["custom_types"]])){
+        type <- .printify_messages[["custom_types"]][[toupper(type)]]
+    }
+
     # If normal pre defined message
     if (!is.list(type)){
+        .printify_messages[["last_type"]] <- toupper(type)
+
         type <- tolower(type)
 
         if (!type %in% c("note", "warning", "error", "neutral", "major", "minor", "grey")){
@@ -203,12 +214,24 @@ print_to_console <- function(type,
     }
     # If custom message
     else{
+        .printify_messages[["last_type"]] <- type[["type"]]
+
         # First format all line breaks so that the next text lines are indented
         if (utf8){
-            message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["ansi_icon"]])
+            if ("timed" %in% names(type)){
+                message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["ansi_wait_icon"]])
+            }
+            else{
+                message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["ansi_icon"]])
+            }
         }
         else{
-            message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["text_icon"]])
+            if ("timed" %in% names(type)){
+                message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["text_wait_icon"]])
+            }
+            else{
+                message_start <- paste0(rep("\u00a0", type[["indent"]]), type[["text_icon"]])
+            }
         }
 
         # Build the line indentation for each line after the first one
@@ -317,6 +340,7 @@ print_headline <- function(text,
                            line_char    = "=",
                            max_width    = getOption("width"),
                            always_print = FALSE,
+                           utf8         = .printify_messages[["format"]][["utf8"]],
                            no_color     = .printify_messages[["no_color"]]){
     suppressed <- FALSE
 
@@ -381,14 +405,14 @@ print_headline <- function(text,
     # Add message to global stack
     entry_nr <- length(.printify_messages[["stack"]]) + 1
     .printify_messages[["stack"]][[entry_nr]] <- list(type       = "HEADLINE",
-                                                 text       = text_orig,
-                                                 suppressed = suppressed,
-                                                 new_line   = TRUE,
-                                                 print_time = FALSE,
-                                                 depth      = depth,
-                                                 caller     = caller,
-                                                 call_stack = sys.calls(),
-                                                 time       = Sys.time())
+                                                      text       = text_orig,
+                                                      suppressed = suppressed,
+                                                      new_line   = TRUE,
+                                                      print_time = FALSE,
+                                                      depth      = depth,
+                                                      caller     = caller,
+                                                      call_stack = sys.calls(),
+                                                      time       = Sys.time())
 
     invisible(text_orig)
 }
@@ -425,6 +449,7 @@ print_start_message <- function(current_time = Sys.time(),
                                 caller_color = "#63C2C9",
                                 always_print = FALSE,
                                 suppress     = FALSE,
+                                utf8         = .printify_messages[["format"]][["utf8"]],
                                 no_color     = .printify_messages[["no_color"]]){
     depth      <- sys.nframe()
     suppressed <- FALSE
@@ -510,14 +535,14 @@ print_start_message <- function(current_time = Sys.time(),
     # Special case, because otherwise HEADLINE is the first entry
     .printify_messages[["stack"]][[entry_nr]] <- NULL
     .printify_messages[["stack"]][[entry_nr]] <- list(type       = "START",
-                                                 text       = text_orig,
-                                                 suppressed = suppressed,
-                                                 new_line   = TRUE,
-                                                 print_time = FALSE,
-                                                 depth      = depth,
-                                                 caller     = caller,
-                                                 call_stack = sys.calls(),
-                                                 time       = Sys.time())
+                                                      text       = text_orig,
+                                                      suppressed = suppressed,
+                                                      new_line   = TRUE,
+                                                      print_time = FALSE,
+                                                      depth      = depth,
+                                                      caller     = caller,
+                                                      call_stack = sys.calls(),
+                                                      time       = Sys.time())
 
     invisible(text_orig)
 }
@@ -536,6 +561,7 @@ print_closing <- function(time_threshold = 2,
                           caller_color   = "#63C2C9",
                           always_print   = FALSE,
                           suppress       = FALSE,
+                          utf8           = .printify_messages[["format"]][["utf8"]],
                           no_color       = .printify_messages[["no_color"]]){
     depth      <- sys.nframe()
     suppressed <- FALSE
@@ -590,7 +616,7 @@ print_closing <- function(time_threshold = 2,
         }
 
         # Put time stamp at the end of the last message if present
-        print_time_stamp()
+        print_time_stamp(utf8, no_color)
 
         stop_timer()
 
@@ -632,14 +658,14 @@ print_closing <- function(time_threshold = 2,
     # Special case, because otherwise HEADLINE would be last before the END
     .printify_messages[["stack"]][[entry_nr]] <- NULL
     .printify_messages[["stack"]][[entry_nr]] <- list(type       = "END",
-                                                 text       = text_orig,
-                                                 suppressed = suppressed,
-                                                 new_line   = TRUE,
-                                                 print_time = FALSE,
-                                                 depth      = depth,
-                                                 caller     = caller,
-                                                 call_stack = sys.calls(),
-                                                 time       = Sys.time())
+                                                      text       = text_orig,
+                                                      suppressed = suppressed,
+                                                      new_line   = TRUE,
+                                                      print_time = FALSE,
+                                                      depth      = depth,
+                                                      caller     = caller,
+                                                      call_stack = sys.calls(),
+                                                      time       = Sys.time())
 
     # Give list entries a name if the stack is closed
     name_stack_messages()
@@ -702,12 +728,14 @@ print_step <- function(type,
     }
 
     if (!is.list(type) && !tolower(type) %in% c("major", "minor", "grey")){
-        type <- "major"
-    }
-    else if (is.list(type)){
-        store_type      <- type[["type"]]
-        type[["type"]]  <- ""
-        type[["timed"]] <- TRUE
+        # Check if message type is a custom one and retrieve from global list
+        if (!toupper(type) %in% names(.printify_messages[["custom_types"]])){
+            type <- "major"
+        }
+        else{
+            type            <- .printify_messages[["custom_types"]][[toupper(type)]]
+            type[["timed"]] <- TRUE
+        }
     }
 
     # Check how deep nested this function is called.
@@ -746,6 +774,7 @@ print_step <- function(type,
         if (length(.printify_messages[["stack"]]) > 1){
             .printify_messages[["stack"]]        <- list()
             .printify_messages[["last_message"]] <- NULL
+            .printify_messages[["last_type"]]    <- NULL
         }
 
         entry_nr <- 1
@@ -756,7 +785,7 @@ print_step <- function(type,
     }
     else{
         # Put time stamp at the end of the last message if present
-        print_time_stamp()
+        print_time_stamp(utf8, no_color)
 
         # If messages are not suppressed
         text <- paste(text)
@@ -770,7 +799,7 @@ print_step <- function(type,
 
     # Catch type for message stack on custom messages
     if (is.list(type)){
-        type <- store_type
+        type <- type[["type"]]
     }
 
     # Add message to global stack
@@ -791,35 +820,45 @@ print_step <- function(type,
 # Custom message
 ###############################################################################
 
-#' @param ansi_icon The icon used when message is displayed in utf8 mode.
-#' @param text_icon The icon used when message is displayed in text only mode.
-#' @param indent How many spaces to indent the message.
 #' @param type If displayed as a normal note, then this is the text displayed
 #' in front of the message. This also appears as type in the message stack.
 #' @param color The color of the message type.
+#' @param ansi_icon The icon used when message is displayed in utf8 mode.
+#' @param text_icon The icon used when message is displayed in text only mode.
+#' @param ansi_wait_icon The icon used when a timed message is waiting for the end of
+#' execution displayed in utf8 mode.
+#' @param text_wait_icon The icon used when a timed message is waiting for the end of
+#' execution displayed in text only mode.
+#' @param indent How many spaces to indent the message.
 #' @param text_bold FALSE by default. If TRUE prints the message text in bold letters.
 #' @param text_italic FALSE by default. If TRUE prints the message text in italic letters.
 #' @param text_underline FALSE by default. If TRUE prints the message text underlined.
 #' @param text_color The color of the actual message text.
+#' @param time_color The color used for the time stamps.
 #'
 #' @returns
-#' [set_up_custom_message()]: Returns a list.
+#' [set_up_custom_message()]: Returns the global list of custom messages.
 #'
 #' @examples
 #' # Set up a custom message
-#' hotdog <- set_up_custom_message(ansi_icon = "\U0001f32d",
-#'                                 text_icon = "IOI",
-#'                                 indent    = 1,
-#'                                 type      = "HOTDOG",
-#'                                 color     = "#B27A01")
+#' set_up_custom_message(type           = "HOTDOG",
+#'                       color          = "#B27A01",
+#'                       ansi_icon      = "\U0001f32d",
+#'                       text_icon      = "IOI",
+#'                       ansi_wait_icon = "\U00023f1",
+#'                       text_wait_icon = "/",
+#'                       indent         = 1)
 #'
 #' hotdog_print <- function(){
 #'     print_start_message()
-#'     print_message(hotdog, c("This is the first hotdog message! Hurray!",
-#'                             "And it is also multiline in this version."))
-#'     print_step(hotdog, "Or use as single line message with time stamps.")
-#'     print_step(hotdog, "Or use as single line message with time stamps.")
-#'     print_step(hotdog, "Or use as single line message with time stamps.")
+#'     print_message("HOTDOG", c("This is the first hotdog message! Hurray!",
+#'                               "And it is also multiline in this version."))
+#'     print_step("HOTDOG", "Or use as single line message with time stamps.")
+#'     Sys.sleep(0.5)
+#'     print_step("HOTDOG", "Or use as single line message with time stamps.")
+#'     Sys.sleep(0.5)
+#'     print_step("HOTDOG", "Or use as single line message with time stamps.")
+#'     Sys.sleep(0.5)
 #'     print_closing()
 #' }
 #'
@@ -831,22 +870,35 @@ print_step <- function(type,
 #' @rdname messages
 #'
 #' @export
-set_up_custom_message <- function(ansi_icon      = NULL,
-                                  text_icon      = "^",
-                                  indent         = 1,
-                                  type           = "UNICORN",
+set_up_custom_message <- function(type           = "UNICORN",
                                   color          = "#FF00FF",
+                                  ansi_icon      = NULL,
+                                  text_icon      = "^",
+                                  ansi_wait_icon = NULL,
+                                  text_wait_icon = "?",
+                                  indent         = 1,
                                   text_bold      = FALSE,
                                   text_italic    = FALSE,
                                   text_underline = FALSE,
-                                  text_color     = NULL){
+                                  text_color     = NULL,
+                                  time_color     = "#6B6B6B"){
     # Set default icon here, because if set as standard argument, roxygen would
     # convert it into the emoji and then the LaTex pdf conversion would throw errors
     if (is.null(ansi_icon)){
         ansi_icon <- "\U0001f984"
     }
 
-    as.list(environment())
+    if (is.null(ansi_wait_icon)){
+        ansi_wait_icon <- "\u23f3\ufe0f"
+    }
+
+    type <- toupper(type)
+
+    # Update global list of custom messages
+    custom_message <- as.list(environment())
+    .printify_messages[["custom_types"]][[type]] <- custom_message
+
+    invisible(.printify_messages[["custom_types"]])
 }
 
 ###############################################################################
@@ -1145,6 +1197,7 @@ reset_messages <- function(){
     .printify_messages[["start_time"]]   <- NULL
     .printify_messages[["timer"]]        <- Sys.time()
     .printify_messages[["last_message"]] <- NULL
+    .printify_messages[["last_type"]]    <- NULL
 
     invisible(.printify_messages)
 }
@@ -1462,10 +1515,17 @@ name_stack_messages <- function(){
 #' Returns a converted text.
 #'
 #' @noRd
-convert_hourglass <- function(text,
+convert_hourglass <- function(type = NULL,
+                              text,
                               last_message,
-                              utf8 = .printify_messages[["format"]][["utf8"]]){
+                              utf8           = .printify_messages[["format"]][["utf8"]]){
     text <- .printify_messages[["last_message"]]
+    type <- .printify_messages[["last_type"]]
+
+    # Check if message type is a custom one and retrieve from global list
+    if (!is.list(type) && toupper(type) %in% names(.printify_messages[["custom_types"]])){
+        type <- .printify_messages[["custom_types"]][[toupper(type)]]
+    }
 
     if (utf8){
         if (last_message[["type"]] == "MAJOR"){
@@ -1474,13 +1534,25 @@ convert_hourglass <- function(text,
         else if (last_message[["type"]] == "MINOR"){
             text <- gsub("\u23f3\ufe0f", "\u271a", text)
         }
+        else if (last_message[["type"]] == "GREY"){
+            # Do nothing
+        }
+        else{
+            text <- gsub(type[["ansi_wait_icon"]], type[["ansi_icon"]], text)
+        }
     }
     else{
         if (last_message[["type"]] == "MAJOR"){
-            text <- gsub("?", ">", text)
+            text <- gsub("\\?", ">", text)
         }
         else if (last_message[["type"]] == "MINOR"){
-            text <- gsub("?", "+", text)
+            text <- gsub("\\?", "+", text)
+        }
+        else if (last_message[["type"]] == "GREY"){
+            # Do nothing
+        }
+        else{
+            text <- gsub(paste0("\\", type[["text_wait_icon"]]), type[["text_icon"]], text)
         }
     }
 
@@ -1498,6 +1570,8 @@ convert_hourglass <- function(text,
 # Put time stamp at the end of the last message if present
 print_time_stamp <- function(utf8     = .printify_messages[["format"]][["utf8"]],
                              no_color = .printify_messages[["no_color"]]){
+    type <- .printify_messages[["last_type"]]
+
     if (is_time_stamp_possible()){
         last_message <- get_last_active_message()
 
@@ -1507,9 +1581,22 @@ print_time_stamp <- function(utf8     = .printify_messages[["format"]][["utf8"]]
             start_timer()
 
             # Format message
-            last_text <- convert_hourglass(.printify_messages[["last_message"]], last_message, utf8)
+            last_text <- convert_hourglass(type,
+                                           .printify_messages[["last_message"]],
+                                           last_message,
+                                           utf8)
 
-            time_stamp <- paste0(last_text, " [", .printify_messages[["format"]][["time_color"]], " (", formatted_time, ")]")
+            time_color <- .printify_messages[["format"]][["time_color"]]
+
+            # Check if message type is a custom one and retrieve from global list
+            if (is.list(type)){
+                time_color <- type[["time_color"]]
+            }
+            else if (!is.list(type) && toupper(type) %in% names(.printify_messages[["custom_types"]])){
+                time_color <- .printify_messages[["custom_types"]][[toupper(type)]][["time_color"]]
+            }
+
+            time_stamp <- paste0(last_text, " [", time_color, " (", formatted_time, ")]")
             .printify_messages[["last_message"]] <- convert_square_brackets(time_stamp)
 
             # Print message

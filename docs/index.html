@@ -123,19 +123,24 @@
 <span><span class="va">message_stack</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/message_helpers.html">get_message_stack</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set up a custom message</span></span>
-<span><span class="va">hotdog</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/messages.html">set_up_custom_message</a></span><span class="op">(</span>ansi_icon <span class="op">=</span> <span class="st">"\U0001f32d"</span>,</span>
-<span>                                text_icon <span class="op">=</span> <span class="st">"IOI"</span>,</span>
-<span>                                indent    <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                type      <span class="op">=</span> <span class="st">"HOTDOG"</span>,</span>
-<span>                                color     <span class="op">=</span> <span class="st">"#B27A01"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/messages.html">set_up_custom_message</a></span><span class="op">(</span>type           <span class="op">=</span> <span class="st">"HOTDOG"</span>,</span>
+<span>                      color          <span class="op">=</span> <span class="st">"#B27A01"</span>,</span>
+<span>                      ansi_icon      <span class="op">=</span> <span class="st">"\U0001f32d"</span>,</span>
+<span>                      text_icon      <span class="op">=</span> <span class="st">"IOI"</span>,</span>
+<span>                      indent         <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                      ansi_wait_icon <span class="op">=</span> <span class="st">"\U00023f1"</span>,</span>
+<span>                      text_wait_icon <span class="op">=</span> <span class="st">"/"</span>,<span class="op">)</span></span>
 <span></span>
 <span><span class="va">hotdog_print</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="fu"><a href="reference/messages.html">print_start_message</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="reference/messages.html">print_message</a></span><span class="op">(</span><span class="va">hotdog</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"This is the first hotdog message! Hurray!"</span>,</span>
-<span>                            <span class="st">"And it is also multiline in this version."</span><span class="op">)</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="va">hotdog</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="va">hotdog</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="va">hotdog</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/messages.html">print_message</a></span><span class="op">(</span><span class="st">"HOTDOG"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"This is the first hotdog message! Hurray!"</span>,</span>
+<span>                              <span class="st">"And it is also multiline in this version."</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="st">"HOTDOG"</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="st">"HOTDOG"</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="reference/messages.html">print_step</a></span><span class="op">(</span><span class="st">"HOTDOG"</span>, <span class="st">"Or use as single line message with time stamps."</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="reference/messages.html">print_closing</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>

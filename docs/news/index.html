@@ -37,6 +37,18 @@
 <h4 id="new-functionality-1-0-1">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-0-1"></a></h4>
 <ul><li>
 <code><a href="../reference/message_helpers.html">set_no_color()</a></code>: Suppresses the color codes so that messages can be printed clean. The option is auto controlled on load via the system variable <code>NO_COLOR</code> but can also be set individually by this function. Console output in e.g. RStudio vs. output to a logging system should be handled automatically rightnow. (25.04.2026, thanks to <a href="https://github.com/TroyHernandez" class="external-link">@TroyHernandez</a>)</li>
+<li>
+<code><a href="../reference/messages.html">set_up_custom_message()</a></code>: Waiting symbols as well as the color of the time stamps can now be customized. (25.04.2026)</li>
+</ul></div>
+<div class="section level4">
+<h4 id="changed-functionality-1-0-1">Changed functionality<a class="anchor" aria-label="anchor" href="#changed-functionality-1-0-1"></a></h4>
+<ul><li>
+<code><a href="../reference/messages.html">set_up_custom_message()</a></code>: They way custom messages are set up has slightly changed and will break existing code. Custom message types are now stored globally and are called within quotation marks like all the other built-in message types. See updated README for the new handling. (25.04.2026)</li>
+</ul></div>
+<div class="section level4">
+<h4 id="fixed-1-0-1">Fixed<a class="anchor" aria-label="anchor" href="#fixed-1-0-1"></a></h4>
+<ul><li>
+<code><a href="../reference/messages.html">print_step()</a></code>: Waiting character “?” is now drawn as intended in non-utf8 mode. (25.04.2026)</li>
 </ul></div>
 <div class="section level4">
 <h4 id="additionally-1-0-1">Additionally<a class="anchor" aria-label="anchor" href="#additionally-1-0-1"></a></h4>

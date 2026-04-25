@@ -11,6 +11,23 @@
   e.g. RStudio vs. output to a logging system should be handled
   automatically rightnow. (25.04.2026, thanks to
   [@TroyHernandez](https://github.com/TroyHernandez))
+- [`set_up_custom_message()`](https://s3rdia.github.io/printify/reference/messages.md):
+  Waiting symbols as well as the color of the time stamps can now be
+  customized. (25.04.2026)
+
+#### Changed functionality
+
+- [`set_up_custom_message()`](https://s3rdia.github.io/printify/reference/messages.md):
+  They way custom messages are set up has slightly changed and will
+  break existing code. Custom message types are now stored globally and
+  are called within quotation marks like all the other built-in message
+  types. See updated README for the new handling. (25.04.2026)
+
+#### Fixed
+
+- [`print_step()`](https://s3rdia.github.io/printify/reference/messages.md):
+  Waiting character “?” is now drawn as intended in non-utf8 mode.
+  (25.04.2026)
 
 #### Additionally
 

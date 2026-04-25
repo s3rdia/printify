@@ -75,15 +75,15 @@ expect_message(print_stack_as_messages("MINOR"), "Minor step.", info = "Print st
 
 
 # Print custom messages utf8
-unicorn <- set_up_custom_message(text_bold      = TRUE,
-                                 text_italic    = TRUE,
-                                 text_underline = TRUE,
-                                 text_color     = "#FF00FF")
+set_up_custom_message(text_bold      = TRUE,
+                      text_italic    = TRUE,
+                      text_underline = TRUE,
+                      text_color     = "#FF00FF")
 
 test_func <- function(){
     print_start_message()
-    print_message(unicorn, "This is a unicorn message.", utf8 = TRUE)
-    print_step(unicorn,    "This is a unicorn step.",    utf8 = TRUE)
+    print_message("unicorn", "This is a unicorn message.", utf8 = TRUE)
+    print_step("unicorn",    "This is a unicorn step.",    utf8 = TRUE)
     print_closing()
 }
 
@@ -95,12 +95,12 @@ expect_message(print_stack_as_messages("UNICORN"), "This is a unicorn step.",   
 
 
 # Print custom messages non-utf8
-unicorn <- set_up_custom_message()
+set_up_custom_message()
 
 test_func <- function(){
     print_start_message()
-    print_message(unicorn, "This is a unicorn message.", utf8 = FALSE)
-    print_step(unicorn,    "This is a unicorn step.",    utf8 = FALSE)
+    print_message("unicorn", "This is a unicorn message.", utf8 = FALSE)
+    print_step("unicorn",    "This is a unicorn step.",    utf8 = FALSE)
     print_closing()
 }
 

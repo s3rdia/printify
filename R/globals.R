@@ -23,13 +23,14 @@
                                        grey_indent_ansi    = hex_to_ansi("\u00a0\u00a0\u00a0\u00a0", hex_color = "#6B6B6B", bold = TRUE),
                                        grey_indent_pt      = hex_to_ansi("\u00a0\u00a0\u00a0",       hex_color = "#6B6B6B", bold = TRUE),
                                        major_ansi          = hex_to_ansi(" \u23f3\ufe0f ",           hex_color = "#32CD32", bold = TRUE),
-                                       major_pt            = hex_to_ansi(" > ",                      hex_color = "#32CD32", bold = TRUE),
+                                       major_pt            = hex_to_ansi(" ? ",                      hex_color = "#32CD32", bold = TRUE),
                                        major_indent_ansi   = hex_to_ansi("\u00a0\u00a0\u00a0\u00a0", hex_color = "#32CD32", bold = TRUE),
                                        major_indent_pt     = hex_to_ansi("\u00a0\u00a0\u00a0",       hex_color = "#32CD32", bold = TRUE),
                                        minor_ansi          = hex_to_ansi(" \u00a0\u00a0\u00a0\u23f3\ufe0f ", hex_color = "#32CD32", bold = TRUE),
-                                       minor_pt            = hex_to_ansi(" \u00a0\u00a0+ ",                  hex_color = "#32CD32", bold = TRUE),
+                                       minor_pt            = hex_to_ansi(" \u00a0\u00a0? ",                  hex_color = "#32CD32", bold = TRUE),
                                        minor_indent_ansi   = hex_to_ansi("\u00a0\u00a0\u00a0\u00a0\u00a0",   hex_color = "#32CD32", bold = TRUE),
                                        minor_indent_pt     = hex_to_ansi("\u00a0\u00a0\u00a0",               hex_color = "#32CD32", bold = TRUE))
+.printify_messages[["custom_types"]]   <- list()
 .printify_messages[["stack"]]          <- list()
 .printify_messages[["start_time"]]     <- NULL
 .printify_messages[["timer"]]          <- NULL
