@@ -8,7 +8,7 @@
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/printify?color=green)](https://cran.r-project.org/package=printify)
 [![DEVELOPMENT
-Version](https://img.shields.io/badge/GitHub-1.0.0-blue.svg)](https://github.com/s3rdia/printify)
+Version](https://img.shields.io/badge/GitHub-1.0.1-blue.svg)](https://github.com/s3rdia/printify)
 [![CRAN
 checks](https://badges.cranchecks.info/summary/printify.svg)](https://cran.r-project.org/web/checks/check_results_printify.html)
 [![Ask
