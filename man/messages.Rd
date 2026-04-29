@@ -52,6 +52,7 @@ print_step(
   type,
   text,
   ...,
+  in_place = FALSE,
   always_print = FALSE,
   utf8 = .printify_messages[["format"]][["utf8"]],
   no_color = .printify_messages[["no_color"]]
@@ -106,6 +107,9 @@ green over yellow to red, depending on the threshold specified (in seconds).}
 
 \item{start_time}{The time at which the function call started to calculate the
 time difference and output the total time spent.}
+
+\item{in_place}{Prints the step message on the same line as before, instead of in
+the next line. This can e.g. be used inside loops.}
 
 \item{color}{The color of the message type.}
 
@@ -192,6 +196,24 @@ test_func()
 
 # See what is going on in the message stack
 message_stack <- get_message_stack()
+
+# Print messages on the same line instead of below each other
+in_place_steps <- function(){
+    print_start_message()
+
+    print_step("MAJOR", "Let's get started...")
+
+    for (i in seq_len(10)){
+        print_step("Minor", "This is in place step [i] of 10", i = i, in_place = TRUE)
+        Sys.sleep(0.25)
+    }
+
+    print_step("MAJOR", "Loop has ended")
+
+    print_closing()
+}
+
+in_place_steps()
 
 # Set up a custom message
 set_up_custom_message(type           = "HOTDOG",

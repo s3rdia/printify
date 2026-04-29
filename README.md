@@ -86,6 +86,24 @@ test_func()
 # See what is going on in the message stack
 message_stack <- get_message_stack()
 
+# Print messages on the same line instead of below each other
+in_place_steps <- function(){
+    print_start_message()
+    
+    print_step("MAJOR", "Let's get started...")
+    
+    for (i in seq_len(10)){
+        print_step("Minor", "This is in place step [i] of 10", i = i, in_place = TRUE)
+        Sys.sleep(0.25)
+    }
+    
+    print_step("MAJOR", "Loop has ended")
+    
+    print_closing()
+}
+
+in_place_steps()
+
 # Set up a custom message
 set_up_custom_message(type           = "HOTDOG",
                       color          = "#B27A01",

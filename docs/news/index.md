@@ -14,6 +14,30 @@
 - [`set_up_custom_message()`](https://s3rdia.github.io/printify/reference/messages.md):
   Waiting symbols as well as the color of the time stamps can now be
   customized. (25.04.2026)
+- [`print_step()`](https://s3rdia.github.io/printify/reference/messages.md):
+  Now has a new `in_place` parameter, which prints the message on the
+  same line as before, instead of in the next line. This can e.g. be
+  used inside loops as follows. (29.04.2026)
+
+&nbsp;
+
+    new_in_place_steps <- function(){
+        print_start_message()
+
+        print_step("MAJOR", "Let's get started...")
+
+        for (i in seq_len(10)){
+            print_step("Minor", "This is in place step [i] of 10", i = i, in_place = TRUE)
+            Sys.sleep(0.25)
+        }
+
+        print_step("MAJOR", "Loop has ended")
+
+        print_closing()
+    }
+
+
+    new_in_place_steps()
 
 #### Changed functionality
 

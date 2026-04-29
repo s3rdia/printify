@@ -144,6 +144,7 @@ print_message <- function(type,
                                                       suppressed = suppressed,
                                                       new_line   = TRUE,
                                                       print_time = FALSE,
+                                                      in_place   = FALSE,
                                                       depth      = depth,
                                                       caller     = caller,
                                                       call_stack = sys.calls(),
@@ -364,7 +365,7 @@ print_headline <- function(text,
     }
     else{
         # Put time stamp at the end of the last message if present
-        print_time_stamp()
+        print_time_stamp(FALSE, utf8, no_color)
 
         # Only get first element, if a vector is given
         if (length(text) > 1){
@@ -409,6 +410,7 @@ print_headline <- function(text,
                                                       suppressed = suppressed,
                                                       new_line   = TRUE,
                                                       print_time = FALSE,
+                                                      in_place   = FALSE,
                                                       depth      = depth,
                                                       caller     = caller,
                                                       call_stack = sys.calls(),
@@ -441,6 +443,24 @@ print_headline <- function(text,
 #'
 #' # See what is going on in the message stack
 #' message_stack <- get_message_stack()
+#'
+#' # Print messages on the same line instead of below each other
+#' in_place_steps <- function(){
+#'     print_start_message()
+#'
+#'     print_step("MAJOR", "Let's get started...")
+#'
+#'     for (i in seq_len(10)){
+#'         print_step("Minor", "This is in place step [i] of 10", i = i, in_place = TRUE)
+#'         Sys.sleep(0.25)
+#'     }
+#'
+#'     print_step("MAJOR", "Loop has ended")
+#'
+#'     print_closing()
+#' }
+#'
+#' in_place_steps()
 #'
 #' @rdname messages
 #'
@@ -539,6 +559,7 @@ print_start_message <- function(current_time = Sys.time(),
                                                       suppressed = suppressed,
                                                       new_line   = TRUE,
                                                       print_time = FALSE,
+                                                      in_place   = FALSE,
                                                       depth      = depth,
                                                       caller     = caller,
                                                       call_stack = sys.calls(),
@@ -616,7 +637,7 @@ print_closing <- function(time_threshold = 2,
         }
 
         # Put time stamp at the end of the last message if present
-        print_time_stamp(utf8, no_color)
+        print_time_stamp(FALSE, utf8, no_color)
 
         stop_timer()
 
@@ -662,6 +683,7 @@ print_closing <- function(time_threshold = 2,
                                                       suppressed = suppressed,
                                                       new_line   = TRUE,
                                                       print_time = FALSE,
+                                                      in_place   = FALSE,
                                                       depth      = depth,
                                                       caller     = caller,
                                                       call_stack = sys.calls(),
@@ -704,6 +726,8 @@ transform_time <- function(start_time){
 #'
 #' @param type The message type, so that the function knows which symbol and coloring
 #' to use. Allowed are "note", "warning", "error", "neutral", "major", "minor" and "grey".
+#' @param in_place Prints the step message on the same line as before, instead of in
+#' the next line. This can e.g. be used inside loops.
 #'
 #' @rdname messages
 #'
@@ -711,6 +735,7 @@ transform_time <- function(start_time){
 print_step <- function(type,
                        text,
                        ...,
+                       in_place     = FALSE,
                        always_print = FALSE,
                        utf8         = .printify_messages[["format"]][["utf8"]],
                        no_color     = .printify_messages[["no_color"]]){
@@ -785,7 +810,7 @@ print_step <- function(type,
     }
     else{
         # Put time stamp at the end of the last message if present
-        print_time_stamp(utf8, no_color)
+        print_time_stamp(in_place, utf8, no_color)
 
         # If messages are not suppressed
         text <- paste(text)
@@ -808,6 +833,7 @@ print_step <- function(type,
                                                       suppressed = suppressed,
                                                       new_line   = FALSE,
                                                       print_time = TRUE,
+                                                      in_place   = in_place,
                                                       depth      = depth,
                                                       caller     = caller,
                                                       call_stack = sys.calls(),
@@ -1270,6 +1296,18 @@ is_last_message_error <- function(){
 
 
 #' @description
+#' Checks whether the last message in the stack is an in place step.
+#'
+#' @returns
+#' Returns TRUE or FALSE.
+#'
+#' @noRd
+is_last_message_in_place <- function(){
+    length(.printify_messages[["stack"]]) >= 1 && .printify_messages[["stack"]][[length(.printify_messages[["stack"]])]][["in_place"]]
+}
+
+
+#' @description
 #' Checks whether the starting message is a fake. A fake start
 #' message is inserted, if a closing message was called without starting message.
 #'
@@ -1568,7 +1606,8 @@ convert_hourglass <- function(type = NULL,
 #'
 #' @noRd
 # Put time stamp at the end of the last message if present
-print_time_stamp <- function(utf8     = .printify_messages[["format"]][["utf8"]],
+print_time_stamp <- function(in_place,
+                             utf8     = .printify_messages[["format"]][["utf8"]],
                              no_color = .printify_messages[["no_color"]]){
     type <- .printify_messages[["last_type"]]
 
@@ -1610,7 +1649,22 @@ print_time_stamp <- function(utf8     = .printify_messages[["format"]][["utf8"]]
                                                                  perl = TRUE)
                 }
 
-                cat("\r", .printify_messages[["last_message"]], "\n", sep = "")
+                # If an in place step is triggered then don't print a time stamp here,
+                # but delete the current line for a fresh start.
+                if (in_place){
+                    # If there was a timed, non in place message before, print the
+                    # time stamp.
+                    if (!is_last_message_in_place()){
+                        cat("\r", .printify_messages[["last_message"]], "\n", sep = "")
+                    }
+
+                    # Delete all text in current line
+                    cat("\r", strrep(" ", getOption("width")), "\r", sep = "")
+                }
+                # For non in place messages print the time stamp
+                else{
+                    cat("\r", .printify_messages[["last_message"]], "\n", sep = "")
+                }
                 utils::flush.console()
             }
         }
