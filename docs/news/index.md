@@ -1,6 +1,6 @@
 # Changelog
 
-## printify 1.0.1 - DEVELOPMENT
+## printify 1.0.1
 
 #### New functionality
 
@@ -42,9 +42,9 @@
 #### Changed functionality
 
 - [`set_up_custom_message()`](https://s3rdia.github.io/printify/reference/messages.md):
-  They way custom messages are set up has slightly changed and will
-  break existing code. Custom message types are now stored globally and
-  are called within quotation marks like all the other built-in message
+  The way custom messages are set up has slightly changed and will break
+  existing code. Custom message types are now stored globally and are
+  called within quotation marks like all the other built-in message
   types. See updated README for the new handling. (25.04.2026)
 
 #### Fixed
