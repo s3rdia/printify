@@ -11,6 +11,7 @@ and visually organized.
 ## Installation
 
 ``` r
+
 # Official release
 install.packages("printify")
 
@@ -27,6 +28,7 @@ pak::pak("s3rdia/printify")
 ![Messages](reference/figures/messages.png)
 
 ``` r
+
 library(printify)
 
 # Example messages

@@ -1,3 +1,10 @@
+# printify 1.0.2
+
+### Fixed
+
+* `print_step()`: Doesn't print empty lines anymore, when surrounding the function with `suppressMessages()`. (01.06.2026)
+
+
 # printify 1.0.1
 
 ### New functionality

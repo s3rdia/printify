@@ -11,6 +11,7 @@ and visually organized.
 ## Installation
 
 ``` r
+
 # Official release
 install.packages("printify")
 
@@ -31,6 +32,7 @@ and does not only provide built in message types, but also custom ones.
 ![Messages](reference/figures/messages.png)
 
 ``` r
+
 library(printify)
 
 # Example messages
