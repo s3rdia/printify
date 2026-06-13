@@ -9,6 +9,16 @@
   [`suppressMessages()`](https://rdrr.io/r/base/message.html).
   (01.06.2026)
 
+#### Optimization
+
+- [`print_step()`](https://s3rdia.github.io/printify/reference/messages.md),
+  [`print_start_message()`](https://s3rdia.github.io/printify/reference/messages.md),
+  [`print_headline()`](https://s3rdia.github.io/printify/reference/messages.md),
+  [`print_closing()`](https://s3rdia.github.io/printify/reference/messages.md):
+  Execution token is now only retrieved, if the print function is called
+  from a low depth. Meaning deeply nested print statements wont retrieve
+  the token because this becomes very resource heavy. (13.06.2026)
+
 ## printify 1.0.1
 
 CRAN release: 2026-05-16

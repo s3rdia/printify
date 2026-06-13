@@ -4,6 +4,10 @@
 
 * `print_step()`: Doesn't print empty lines anymore, when surrounding the function with `suppressMessages()`. (01.06.2026)
 
+### Optimization
+
+* `print_step()`, `print_start_message()`, `print_headline()`, `print_closing()`: Execution token is now only retrieved, if the print function is called from a low depth. Meaning deeply nested print statements wont retrieve the token because this becomes very resource heavy. (13.06.2026)
+
 
 # printify 1.0.1
 
