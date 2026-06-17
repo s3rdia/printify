@@ -2,6 +2,8 @@
 
 ## printify 1.0.2
 
+CRAN release: 2026-06-17
+
 #### Fixed
 
 - [`print_step()`](https://s3rdia.github.io/printify/reference/messages.md):
