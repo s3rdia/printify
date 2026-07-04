@@ -10,13 +10,13 @@ Source:
 [`DESCRIPTION`](https://github.com/s3rdia/printify/blob/HEAD/DESCRIPTION)
 
 Siebenmorgen T (2026). *printify: Custom Formatted Console Messages with
-Timing Support*. R package version 1.0.2,
+Timing Support*. R package version 1.0.3,
 <https://github.com/s3rdia/printify>.
 
     @Manual{,
       title = {printify: Custom Formatted Console Messages with Timing Support},
       author = {Tim Siebenmorgen},
       year = {2026},
-      note = {R package version 1.0.2},
+      note = {R package version 1.0.3},
       url = {https://github.com/s3rdia/printify},
     }

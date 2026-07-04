@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">printify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,18 @@
       <small>Source: <a href="https://github.com/s3rdia/printify/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="printify-103---development">printify 1.0.3 - DEVELOPMENT<a class="anchor" aria-label="anchor" href="#printify-103---development"></a></h2>
+<div class="section level4">
+<h4 id="fixed-1-0-3">Fixed<a class="anchor" aria-label="anchor" href="#fixed-1-0-3"></a></h4>
+<ul><li>
+<code><a href="../reference/messages.html">print_start_message()</a></code>: Now doesn’t reset start timer anymore when message is suppressed. (04.07.2026)</li>
+</ul></div>
+<div class="section level4">
+<h4 id="optimization-1-0-3">Optimization<a class="anchor" aria-label="anchor" href="#optimization-1-0-3"></a></h4>
+<ul><li>I underestimated how big in size the call stack can get depending on what functions are called. Therefore the message stack now doesn’t receive the full call stack per message anymore but a condensed version and just as a list of character strings. (04.07.2026)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="printify-102">printify 1.0.2<a class="anchor" aria-label="anchor" href="#printify-102"></a></h2><p class="text-muted">CRAN release: 2026-06-17</p>
 <div class="section level4">

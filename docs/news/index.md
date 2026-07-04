@@ -1,5 +1,20 @@
 # Changelog
 
+## printify 1.0.3 - DEVELOPMENT
+
+#### Fixed
+
+- [`print_start_message()`](https://s3rdia.github.io/printify/reference/messages.md):
+  Now doesn’t reset start timer anymore when message is suppressed.
+  (04.07.2026)
+
+#### Optimization
+
+- I underestimated how big in size the call stack can get depending on
+  what functions are called. Therefore the message stack now doesn’t
+  receive the full call stack per message anymore but a condensed
+  version and just as a list of character strings. (04.07.2026)
+
 ## printify 1.0.2
 
 CRAN release: 2026-06-17
