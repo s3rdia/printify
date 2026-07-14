@@ -1,4 +1,4 @@
-# printify 1.0.3 - DEVELOPMENT
+# printify 1.0.3
 
 ### Fixed
 
